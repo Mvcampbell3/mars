@@ -1,0 +1,30 @@
+.btn {
+  padding: 0.75em 2em;
+  font-size: 20px;
+  border-radius: 4px;
+  border: 1px transparent solid;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline: 0;
+  border: 1px darkred solid;
+}
+
+.btn-rover {
+  background-color: rgba(255, 255, 255, 1);
+  color: darkred;
+  font-weight: bolder;
+  box-shadow: 0px 2px 2px 2px rgba(51, 51, 51, 0.2);
+  transition: box-shadow 0.3s;
+
+  &.selected {
+    color: rgb(199, 0, 0);
+  }
+}
+
+.btn-rover:hover {
+  box-shadow: 0px 0px 0px 0px rgba(51, 51, 51, 0.2);
+  background-color: rgba(200, 200, 200, 0.2);
+  transition: box-shadow 0.3s background-color 0.3;
+}

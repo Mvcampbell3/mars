@@ -1,11 +1,17 @@
 import React from 'react';
+import './Button.scss';
 
 const Button = (props) => {
   const {
-    handleClick
+    handleClick,
+    type,
+    selected
   } = props;
   return (
-    <button onClick={handleClick}>{props.children}</button>
+    <button
+      onClick={handleClick}
+      className={`btn btn-${type} ${selected !== false ? 'selected' : ''}`}
+    >{props.children}</button>
   );
 }
 
