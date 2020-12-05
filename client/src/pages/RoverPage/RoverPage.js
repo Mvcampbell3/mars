@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './RoverPage.scss';
 import Button from '../../components/Button';
-import { NumberInput, TextInput } from '../../components/Input';
+import { NumberInput } from '../../components/Input';
 
 import nasaAPI from '../../utils/axios';
 
@@ -10,7 +10,9 @@ const RoverPage = (props) => {
   const [selectedRover, setSelectedRover] = useState('opportunity');
   const [loading, setLoading] = useState(false);
   const [selectedCamera, setSelectedCamera] = useState('');
-  const [maxSol, setMaxSol] = useState()
+  const [maxSol, setMaxSol] = useState();
+  const [selectedSol, setSelectedSol] = useState()
+
 
   useEffect(() => {
     if (selectedRover !== '') {
@@ -18,6 +20,7 @@ const RoverPage = (props) => {
       nasaAPI.getRoverManifest(selectedRover)
         .then(result => {
           console.log(result.data);
+          setMaxSol(result.data.photo_manifest.max_sol)
           setLoading(false)
         })
         .catch(err => {
@@ -39,6 +42,15 @@ const RoverPage = (props) => {
     }
   }, [selectedRover, loading])
 
+  const InputProps = useCallback((changeFunc, val) => {
+    return {
+      handleChange: (e) => {
+        changeFunc(e.target.value)
+      },
+      value: val
+    }
+  }, [maxSol])
+
   return (
     <div className="container">
 
@@ -59,15 +71,12 @@ const RoverPage = (props) => {
       <div className="item-container">
         <div className="sol-holder">
           <div className="sol-stats">
-
+            <h3>{maxSol}</h3>
           </div>
           <div className="sol-input-group">
             <label htmlFor="sol-input">Sol</label>
-            <NumberInput />
-          </div>
-          <div className="test">
-            <label htmlFor="text-input">Test Text</label>
-            <TextInput />
+            <NumberInput {...InputProps(setSelectedSol, selectedSol)} />
+            <h1>{selectedSol}</h1>
           </div>
         </div>
       </div>
