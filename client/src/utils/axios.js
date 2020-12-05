@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const nasaReactAPI = {
+const nasaAPI = {
   getRoverPictures: () => {
 
   },
@@ -9,4 +9,4 @@ const nasaReactAPI = {
   }
 }
 
-export default nasaReactAPI;
+export default nasaAPI;

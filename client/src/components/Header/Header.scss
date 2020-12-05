@@ -1,0 +1,28 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0px 40px;
+  background-color: darkred;
+  color: white;
+
+  h1.brand {
+    margin-bottom: 0;
+  }
+
+  nav {
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      li {
+        padding: 10px 0;
+        a {
+          color: white;
+          padding: 0px 20px;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
