@@ -3,10 +3,12 @@ import React from 'react';
 const NumberInput = (props) => {
   const {
     handleChange,
-    val
+    value,
+    name,
+    id
   } = props;
   return (
-    <input type="number" name="" id="" value={val} onChange={e => handleChange(e)} />
+    <input type="number" name={name} id={id} value={value} onChange={e => handleChange(e)} />
   );
 }
 
