@@ -10,10 +10,11 @@ const RoverPage = (props) => {
   const [selectedRover, setSelectedRover] = useState('');
   const [loading, setLoading] = useState(false);
   const [maxSol, setMaxSol] = useState();
-  const [selectedSol, setSelectedSol] = useState("0");
+  const [selectedSol, setSelectedSol] = useState('');
   const [availableCameras, setAvailableCameras] = useState([]);
   const [solTotalPictures, setSolTotalPictures] = useState(0);
   const [manifestSols, setManifestSols] = useState([]);
+  const [selectedCamera, setSelectedCamera] = useState('');
 
   useEffect(() => {
     if (selectedRover !== '') {
@@ -22,7 +23,7 @@ const RoverPage = (props) => {
       nasaAPI.getRoverManifest(selectedRover)
         .then(result => {
           console.log(result.data);
-          setSelectedSol("0");
+          setSelectedSol('');
           setAvailableCameras([])
           setMaxSol(result.data.photo_manifest.max_sol);
           setManifestSols(result.data.photo_manifest.photos)
@@ -33,7 +34,7 @@ const RoverPage = (props) => {
           setLoading(false)
         })
     }
-  }, [selectedRover])
+  }, [selectedRover]);
 
   useEffect(() => {
     const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
@@ -46,19 +47,21 @@ const RoverPage = (props) => {
     }
   }, [manifestSols, selectedSol])
 
-  const ButtonProps = useCallback((rover) => {
+  const ButtonProps = useCallback((changeFunc, value, type, evalItem) => {
     return {
       handleClick: () => {
         if (!loading) {
-          setSelectedRover(rover);
+          changeFunc(value);
         }
       },
-      type: 'rover',
-      selected: rover === selectedRover
+      type: type,
+      selected: value === evalItem,
+      selectedRover, // Added to stop warning, it's not doing anything
+      selectedCamera // Added to stop warning, it's not doing anything
     }
-  }, [selectedRover, loading])
+  }, [selectedRover, selectedCamera, loading])
 
-  const InputProps = useCallback((changeFunc, value, name, id) => {
+  const InputProps = useCallback((changeFunc, value, name, id, placeholder) => {
     return {
       handleChange: (e) => {
         changeFunc(e.target.value)
@@ -66,23 +69,35 @@ const RoverPage = (props) => {
       value,
       name,
       id,
+      placeholder,
       selectedSol // Added to stop warning, it's not doing anything
     }
-  }, [selectedSol])
+  }, [selectedSol]);
+
+  const getPictures = () => {
+    if (selectedCamera !== "" && selectedRover !== "" && selectedSol !== "") {
+      nasaAPI.getRoverPictures(selectedRover, selectedCamera, selectedSol)
+        .then(result => {
+          console.log(result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  }
 
   return (
     <div className="container">
-
       <div className="item-container">
         <div className="rover-holder">
           <div className="rover-button">
-            <Button {...ButtonProps('curiosity')}>Curiosity</Button>
+            <Button {...ButtonProps(setSelectedRover, 'curiosity', 'rover', selectedRover)}>Curiosity</Button>
           </div>
           <div className="rover-button">
-            <Button {...ButtonProps('opportunity')}>Opportunity</Button>
+            <Button {...ButtonProps(setSelectedRover, 'opportunity', 'rover', selectedRover)}>Opportunity</Button>
           </div>
           <div className="rover-button">
-            <Button {...ButtonProps('spirit')}>Spirit</Button>
+            <Button {...ButtonProps(setSelectedRover, 'spirit', 'rover', selectedRover)}>Spirit</Button>
           </div>
         </div>
       </div>
@@ -94,7 +109,7 @@ const RoverPage = (props) => {
           </div>
           <div className="sol-input-group">
             <label htmlFor="sol-input">Sol</label>
-            <NumberInput {...InputProps(setSelectedSol, selectedSol, 'selected-sol-input', 'selected-sol-input')} />
+            <NumberInput {...InputProps(setSelectedSol, selectedSol, 'selected-sol-input', 'selected-sol-input', 'A number less or equal to the max sol number')} />
             <h1>{selectedSol}</h1>
           </div>
         </div>
@@ -102,9 +117,17 @@ const RoverPage = (props) => {
 
       {loading && <div>Loading</div>}
 
-      {availableCameras && availableCameras.length > 0 && availableCameras.map(camera => <Button key={camera}>{camera}</Button>)}
+      {availableCameras && availableCameras.length > 0 && availableCameras.map(camera =>
+        <Button key={camera} {...ButtonProps(setSelectedCamera, camera.toLowerCase(), 'camera', selectedCamera)}>{camera}</Button>
+      )}
 
       {solTotalPictures > 0 ? <h3>Total Pictures: {solTotalPictures}</h3> : <h3>There are not any pics</h3>}
+
+      <div className="item-container">
+        <div className="submit-btn-holder">
+          <Button {...ButtonProps(getPictures, { selectedRover, selectedCamera, selectedSol }, 'submit', null)}>Get Pictures</Button>
+        </div>
+      </div>
 
     </div>
   );

@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const nasaAPI = require('../../utils/axios');
 
-router.get('/', (req, res) => {
-  nasaAPI.getRoverPictures('opportunity', ['fhaz', 'rhaz'], 45)
+router.get('/photos/:rover/:sol/:camera', (req, res) => {
+  const { rover, sol, camera } = req.params;
+  nasaAPI.getRoverPictures(rover, [camera], sol)
     .then(result => {
       res.json(result.data);
     })

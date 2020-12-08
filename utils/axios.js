@@ -5,7 +5,9 @@ const nasaAPI = {
     let reqURL = `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover}/photos?sol=${sol}`;
     if (cameras.length > 0) {
       cameras.forEach(camera => {
-        reqURL += `&camera=${camera}`;
+        if (camera !== 'all') {
+          reqURL += `&camera=${camera}`;
+        }
       })
     }
     reqURL += `&api_key=${process.env.NASA_KEY}`;

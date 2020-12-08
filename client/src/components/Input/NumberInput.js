@@ -5,10 +5,11 @@ const NumberInput = (props) => {
     handleChange,
     value,
     name,
-    id
+    id,
+    placeholder
   } = props;
   return (
-    <input type="number" name={name} id={id} value={value} onChange={e => handleChange(e)} />
+    <input type="number" name={name} id={id} value={value} onChange={e => handleChange(e)} placeholder={placeholder && placeholder} />
   );
 }
 
