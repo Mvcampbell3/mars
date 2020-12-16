@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './RoverPage.scss';
+
+// import { SpiritPage, CuriosityPage, OpportunityPage } from './'
 import Button from '../../components/Button';
 import { NumberInput } from '../../components/Input';
 
@@ -19,22 +21,26 @@ const RoverPage = (props) => {
   useEffect(() => {
     if (selectedRover !== '') {
       console.log('running select rover use effect')
-      setLoading(true);
-      nasaAPI.getRoverManifest(selectedRover)
-        .then(result => {
-          console.log(result.data);
-          setSelectedSol('');
-          setAvailableCameras([])
-          setMaxSol(result.data.photo_manifest.max_sol);
-          setManifestSols(result.data.photo_manifest.photos)
-          setLoading(false)
-        })
-        .catch(err => {
-          console.log(err)
-          setLoading(false)
-        })
+      handleSelectedRoverChange(selectedRover)
     }
   }, [selectedRover]);
+
+  const handleSelectedRoverChange = (rover) => {
+    setLoading(true);
+    nasaAPI.getRoverManifest(rover)
+      .then(result => {
+        console.log(result.data);
+        setSelectedSol('');
+        setAvailableCameras([])
+        setMaxSol(result.data.photo_manifest.max_sol);
+        setManifestSols(result.data.photo_manifest.photos)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+  }
 
   useEffect(() => {
     const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
