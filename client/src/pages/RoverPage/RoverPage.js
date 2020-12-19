@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './RoverPage.scss';
 
 // import { SpiritPage, CuriosityPage, OpportunityPage } from './'
 import Button from '../../components/Button';
 import { NumberInput } from '../../components/Input';
+
+import { RoverSelection } from './'
 
 import nasaAPI from '../../utils/axios';
 
@@ -11,23 +13,17 @@ const RoverPage = (props) => {
 
   const [selectedRover, setSelectedRover] = useState('');
   const [loading, setLoading] = useState(false);
-  const [maxSol, setMaxSol] = useState();
+  const [maxSol, setMaxSol] = useState("");
   const [selectedSol, setSelectedSol] = useState('');
   const [availableCameras, setAvailableCameras] = useState([]);
   const [solTotalPictures, setSolTotalPictures] = useState(0);
   const [manifestSols, setManifestSols] = useState([]);
   const [selectedCamera, setSelectedCamera] = useState('');
 
-  useEffect(() => {
-    if (selectedRover !== '') {
-      console.log('running select rover use effect')
-      handleSelectedRoverChange(selectedRover)
-    }
-  }, [selectedRover]);
-
-  const handleSelectedRoverChange = (rover) => {
+  const handleSelectedRoverChange = useCallback(() => {
     setLoading(true);
-    nasaAPI.getRoverManifest(rover)
+    clearRoverData()
+    nasaAPI.getRoverManifest(selectedRover)
       .then(result => {
         console.log(result.data);
         setSelectedSol('');
@@ -40,10 +36,32 @@ const RoverPage = (props) => {
         console.log(err)
         setLoading(false)
       })
+  }, [selectedRover])
+
+  useEffect(() => {
+    if (selectedRover !== '') {
+      console.log('running select rover use effect')
+      handleSelectedRoverChange(selectedRover)
+    }
+  }, [selectedRover, handleSelectedRoverChange]);
+
+  const RoverSelectionProps = useMemo(() => {
+    return {
+      selectedRover,
+      setSelectedRover,
+      selectedCamera,
+      loading
+    }
+  }, [selectedRover, loading, selectedCamera])
+
+  const clearRoverData = () => {
+    setSelectedCamera("");
+    setMaxSol("");
   }
 
   useEffect(() => {
     const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
+    setSelectedCamera("")
     if (correctSol.length > 0) {
       setAvailableCameras(["ALL", ...correctSol[0].cameras]);
       setSolTotalPictures(correctSol[0].total_photos);
@@ -95,31 +113,26 @@ const RoverPage = (props) => {
   return (
     <div className="container">
       <div className="item-container">
-        <div className="rover-holder">
-          <div className="rover-button">
-            <Button {...ButtonProps(setSelectedRover, 'curiosity', 'rover', selectedRover)}>Curiosity</Button>
-          </div>
-          <div className="rover-button">
-            <Button {...ButtonProps(setSelectedRover, 'opportunity', 'rover', selectedRover)}>Opportunity</Button>
-          </div>
-          <div className="rover-button">
-            <Button {...ButtonProps(setSelectedRover, 'spirit', 'rover', selectedRover)}>Spirit</Button>
-          </div>
-        </div>
+        <h1 className='page-title'>{selectedRover === ""
+          ? "Please select a rover"
+          : selectedRover.charAt(0).toUpperCase() + selectedRover.slice(1)}</h1>
+        <RoverSelection {...RoverSelectionProps} />
       </div>
 
-      <div className="item-container">
-        <div className="sol-holder">
-          <div className="sol-stats">
-            <h3>{maxSol}</h3>
-          </div>
-          <div className="sol-input-group">
-            <label htmlFor="sol-input">Sol</label>
-            <NumberInput {...InputProps(setSelectedSol, selectedSol, 'selected-sol-input', 'selected-sol-input', 'A number less or equal to the max sol number')} />
-            <h1>{selectedSol}</h1>
+      {selectedRover !== "" && maxSol !== "" &&
+        <div className="item-container">
+          <div className="sol-holder">
+            <div className="sol-stats">
+              <h3>Maximum Sol: {maxSol}</h3>
+            </div>
+            <div className="sol-input-group">
+              <label htmlFor="sol-input">Sol</label>
+              <NumberInput {...InputProps(setSelectedSol, selectedSol, 'selected-sol-input', 'selected-sol-input', 'A number less or equal to the max sol number')} />
+              <h1>{selectedSol}</h1>
+            </div>
           </div>
         </div>
-      </div>
+      }
 
       {loading && <div>Loading</div>}
 
