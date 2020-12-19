@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const nasaAPI = require('../../utils/axios');
+const userRoutes = require('./userRoutes');
+
+router.use('/users', userRoutes)
 
 router.get('/photos/:rover/:sol/:camera', (req, res) => {
   const { rover, sol, camera } = req.params;
