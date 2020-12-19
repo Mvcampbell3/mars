@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const db = require('../../../models');
+const userController = require('../../../controllers/userController');
 
-router.get('/', (req, res) => {
-  db.User.find({})
-    .then(users => res.json(users))
-    .catch(err => res.json(err))
-})
+router.get('/', userController.findAllUsers);
+router.post('/create', userController.createUser);
+router.delete('/delete/:id', userController.deleteUser);
+router.post('/login', userController.loginUser);
+router.post('/verify', userController.checkUserToken)
 
 module.exports = router;
