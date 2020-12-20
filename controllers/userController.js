@@ -49,7 +49,7 @@ module.exports = {
         if (dbUser) {
           const matchedPassword = bcrypt.compareSync(password, dbUser.password);
           if (matchedPassword) {
-            const token = signToken({ email: dbUser.email })
+            const token = signToken({ email: dbUser.email, id: dbUser._id })
             return res.json({ ok: true, token })
           }
           return res.json({ ok: false })
