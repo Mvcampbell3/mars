@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import Modal from '../Modal';
 import { TextInput } from '../Input';
 import Button from '../Button'
 import { serverAPI } from '../../utils/axios';
+import "./Login.scss";
 
 const Login = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,33 +23,37 @@ const Login = (props) => {
       })
   }
 
+  const ModalProps = {
+    showModal: showLoginModal,
+    setShowModal: setShowLoginModal
+  }
+
   return (
     <div className="login-container">
-      <form onSubmit={handleSubmit}>
-        <div className="field-container">
-
-          <label htmlFor="email-login" className="input-label">Email</label>
-          <TextInput
-            val={email}
-            handleChange={setEmail}
-            id="email-login"
-            name="email"
-            placeholder="example@email.com"
-          />
+      <Button type='button' handleClick={e => setShowLoginModal(!showLoginModal)}>Login</Button>
+      <Modal {...ModalProps}>
+        <div className="login-form">
+          <form onSubmit={handleSubmit}>
+            <TextInput
+              label="Email"
+              val={email}
+              handleChange={setEmail}
+              id="email-login"
+              name="email"
+              placeholder="example@email.com"
+            />
+            <TextInput
+              label="Password"
+              val={password}
+              handleChange={setPassword}
+              id="password-login"
+              name="password"
+              placeholder="********"
+            />
+            <Button type='submit'>Submit</Button>
+          </form>
         </div>
-        <div className="field-container">
-          <label htmlFor="password-login">Password</label>
-          <TextInput
-            val={password}
-            handleChange={setPassword}
-            id="password-login"
-            name="password"
-            placeholder="********"
-          />
-
-        </div>
-        <Button type='submit'>Submit</Button>
-      </form>
+      </Modal>
     </div>
   );
 }

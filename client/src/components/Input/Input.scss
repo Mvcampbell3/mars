@@ -1,0 +1,19 @@
+.field-container {
+  label,
+  input {
+    display: block;
+  }
+
+  .input-label {
+    font-size: 22px;
+    margin-top: 0.5em;
+  }
+
+  .input-text {
+    padding: 1em;
+    border-radius: 4px;
+    border: 1px rgb(119, 119, 119) solid;
+    font-size: 16px;
+    margin-top: 0.5em;
+  }
+}

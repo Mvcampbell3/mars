@@ -1,4 +1,5 @@
 import React from 'react';
+import './Input.scss';
 
 const TextInput = (props) => {
   const {
@@ -6,16 +7,22 @@ const TextInput = (props) => {
     val,
     placeholder,
     id,
-    name
+    name,
+    label
   } = props;
+
   return (
-    <input type="text"
-      name={name}
-      id={id}
-      value={val}
-      onChange={e => handleChange(e.target.value)}
-      placeholder={placeholder && placeholder}
-    />
+    <div className="field-container">
+      {label && <label htmlFor="email-login" className="input-label">{label}</label>}
+      <input
+        className="input input-text"
+        value={val}
+        onChange={e => handleChange(e.target.value)}
+        id={id}
+        name={name}
+        placeholder={placeholder && placeholder}
+      />
+    </div>
   );
 }
 
