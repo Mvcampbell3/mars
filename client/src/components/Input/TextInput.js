@@ -3,10 +3,19 @@ import React from 'react';
 const TextInput = (props) => {
   const {
     handleChange,
-    val
+    val,
+    placeholder,
+    id,
+    name
   } = props;
   return (
-    <input type="text" name="" id="" value={val} onChange={e => handleChange(e)} />
+    <input type="text"
+      name={name}
+      id={id}
+      value={val}
+      onChange={e => handleChange(e.target.value)}
+      placeholder={placeholder && placeholder}
+    />
   );
 }
 
