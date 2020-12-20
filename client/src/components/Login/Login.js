@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from '../Modal';
 import { TextInput } from '../Input';
-import Button from '../Button'
+import Button, { TextButton } from '../Button'
 import { serverAPI } from '../../utils/axios';
 import "./Login.scss";
 import { emailValidate, passwordValidate } from '../../utils/validate';
@@ -13,22 +13,28 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [redirectRover, setRedirectRover] = useState(false);
+  const [action, setAction] = useState('login');
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit')
     console.log(emailValidate(email))
     if (emailValidate(email) && passwordValidate(password)) {
-      serverAPI.loginUser(email, password)
+      const actionFunction = action === 'login' ? serverAPI.loginUser : serverAPI.createUser;
+      actionFunction(email, password)
         .then(result => {
           console.log(result)
-          setRedirectRover(true)
+          // setRedirectRover(true)
         })
         .catch(err => {
           console.log(err)
         })
     }
+  }
 
+  const toggleAction = (e) => {
+    e.preventDefault()
+    setAction(action === 'login' ? 'signup' : 'login');
   }
 
   const ModalProps = {
@@ -43,6 +49,7 @@ const Login = (props) => {
       <Modal {...ModalProps}>
         <div className="login-form">
           <form onSubmit={handleSubmit}>
+            <h3 className="loginTitle">{action === 'login' ? "Login" : "Signup"}</h3>
             <TextInput
               label="Email"
               val={email}
@@ -61,7 +68,20 @@ const Login = (props) => {
               placeholder="********"
               type="password"
             />
-            <Button type='submit' classNames="margin-top">Submit</Button>
+            <div className="action-holder">
+              <Button type='submit'>
+                {action === 'login'
+                  ? 'Login'
+                  : 'Sign Up'
+                }
+              </Button>
+              <TextButton handleClick={toggleAction}>
+                {action === 'login'
+                  ? 'I need to create an account'
+                  : 'I already have an account'
+                }
+              </TextButton>
+            </div>
           </form>
         </div>
       </Modal>

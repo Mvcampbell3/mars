@@ -32,3 +32,14 @@
   background-color: rgba(200, 200, 200, 0.2);
   transition: box-shadow 0.3s background-color 0.3;
 }
+
+.text-btn {
+  background-color: transparent;
+  color: blue;
+  border: 0;
+}
+
+.text-btn:focus {
+  outline: 0;
+  text-decoration: underline;
+}

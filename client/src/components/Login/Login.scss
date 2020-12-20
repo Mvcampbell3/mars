@@ -9,3 +9,11 @@
   padding: 1em;
   border-radius: 4px;
 }
+
+.action-holder {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+}

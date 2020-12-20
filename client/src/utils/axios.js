@@ -12,6 +12,9 @@ const nasaAPI = {
 const serverAPI = {
   loginUser: (email, password) => {
     return axios.post('/api/users/login', { email, password })
+  },
+  createUser: (email, password) => {
+    return axios.post('api/users/create', { email, password })
   }
 }
 
