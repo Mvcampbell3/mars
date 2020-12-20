@@ -5,12 +5,14 @@ import Button from '../Button'
 import { serverAPI } from '../../utils/axios';
 import "./Login.scss";
 import { emailValidate, passwordValidate } from '../../utils/validate';
+import { Redirect } from 'react-router-dom';
 
 const Login = (props) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [redirectRover, setRedirectRover] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +22,7 @@ const Login = (props) => {
       serverAPI.loginUser(email, password)
         .then(result => {
           console.log(result)
+          setRedirectRover(true)
         })
         .catch(err => {
           console.log(err)
@@ -35,6 +38,7 @@ const Login = (props) => {
 
   return (
     <div className="login-container">
+      {redirectRover && <Redirect to='/rovers' />}
       <Button type='button' handleClick={e => setShowLoginModal(!showLoginModal)}>Login</Button>
       <Modal {...ModalProps}>
         <div className="login-form">
@@ -46,6 +50,7 @@ const Login = (props) => {
               id="email-login"
               name="email"
               placeholder="example@email.com"
+              type="email"
             />
             <TextInput
               label="Password"
@@ -54,8 +59,9 @@ const Login = (props) => {
               id="password-login"
               name="password"
               placeholder="********"
+              type="password"
             />
-            <Button type='submit'>Submit</Button>
+            <Button type='submit' classNames="margin-top">Submit</Button>
           </form>
         </div>
       </Modal>

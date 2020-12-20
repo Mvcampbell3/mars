@@ -8,6 +8,7 @@ const TextInput = (props) => {
     placeholder,
     id,
     name,
+    type,
     label
   } = props;
 
@@ -17,6 +18,7 @@ const TextInput = (props) => {
       <input
         className="input input-text"
         value={val}
+        type={type}
         onChange={e => handleChange(e.target.value)}
         id={id}
         name={name}

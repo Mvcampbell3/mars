@@ -5,7 +5,7 @@
   }
 
   .input-label {
-    font-size: 22px;
+    font-size: 18px;
     margin-top: 0.5em;
   }
 
@@ -15,5 +15,8 @@
     border: 1px rgb(119, 119, 119) solid;
     font-size: 16px;
     margin-top: 0.5em;
+    max-width: 400px;
+    width: 100%;
+    min-width: 340px;
   }
 }

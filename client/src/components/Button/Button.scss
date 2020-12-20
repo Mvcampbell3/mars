@@ -4,6 +4,10 @@
   border-radius: 4px;
   border: 1px transparent solid;
   cursor: pointer;
+
+  &.margin-top {
+    margin-top: 1em;
+  }
 }
 
 .btn:focus {

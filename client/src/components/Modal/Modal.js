@@ -13,7 +13,7 @@ const Modal = (props) => {
   }
 
   return (
-    <div className={`modal-background ${!showModal ? "hide-content" : ""}`}>
+    <div className={`modal-background fade-in-animation ${!showModal ? "hide-content" : ""}`}>
       <span className="close-modal" onClick={closeModal}>X</span>
       <div className="modal-content">{props.children}</div>
     </div>

@@ -1,3 +1,19 @@
 .page-title {
   text-align: center;
 }
+
+.fade-in-animation {
+  animation-name: fade-in;
+  animation-fill-mode: forwards;
+  animation-duration: 0.3s;
+  animation-timing-function: linear;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
