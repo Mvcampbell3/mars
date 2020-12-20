@@ -4,6 +4,7 @@ import { TextInput } from '../Input';
 import Button from '../Button'
 import { serverAPI } from '../../utils/axios';
 import "./Login.scss";
+import { emailValidate, passwordValidate } from '../../utils/validate';
 
 const Login = (props) => {
 
@@ -14,13 +15,17 @@ const Login = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit')
-    serverAPI.loginUser(email, password)
-      .then(result => {
-        console.log(result)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    console.log(emailValidate(email))
+    if (emailValidate(email) && passwordValidate(password)) {
+      serverAPI.loginUser(email, password)
+        .then(result => {
+          console.log(result)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
   }
 
   const ModalProps = {
