@@ -14,13 +14,15 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(routes)
 
-mongoose.connect(process.env.MONGO_URI, { useUnifiedTopology: true, useNewUrlParser: true }, (err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('connected to mongo')
-  }
-})
+mongoose.connect(process.env.MONGO_URI,
+  { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true, useFindAndModify: true },
+  (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('connected to mongo')
+    }
+  })
 
 app.listen(PORT, () => {
   console.log(`server is running on http://localhost:${PORT}`)

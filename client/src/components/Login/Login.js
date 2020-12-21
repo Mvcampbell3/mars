@@ -18,8 +18,8 @@ const Login = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('submit')
-    console.log(emailValidate(email))
     if (emailValidate(email) && passwordValidate(password)) {
+      console.log('passed validation')
       const actionFunction = action === 'login' ? serverAPI.loginUser : serverAPI.createUser;
       actionFunction(email, password)
         .then(result => {
@@ -29,6 +29,8 @@ const Login = (props) => {
         .catch(err => {
           console.log(err)
         })
+    } else {
+      console.log('failed validation')
     }
   }
 
