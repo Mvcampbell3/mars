@@ -2,29 +2,15 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './RoverPage.scss';
 import { connect } from 'react-redux';
 import { addPhotos } from '../../redux/actions'
-
-// import { SpiritPage, CuriosityPage, OpportunityPage } from './'
 import Button from '../../components/Button';
 import { NumberInput } from '../../components/Input';
-
 import { RoverSelection } from './'
-
 import nasaAPI from '../../utils/axios';
 
-const mapStateToProps = (state) => {
-  return {
-    photos: state.photos
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addPhotos: photos => dispatch(addPhotos(photos))
-  }
-}
 
 const RoverPage = (props) => {
-  const { photos } = props;
+  const { photos, addPhotos } = props;
   const [selectedRover, setSelectedRover] = useState('');
   const [loading, setLoading] = useState(false);
   const [maxSol, setMaxSol] = useState("");
@@ -117,8 +103,7 @@ const RoverPage = (props) => {
       nasaAPI.getRoverPictures(selectedRover, selectedCamera, selectedSol)
         .then(result => {
           console.log(result.data)
-          addPhotos([{ name: 'hello' }]);
-          console.log(photos)
+          addPhotos(result.data.photos);
         })
         .catch(err => {
           console.log(err)
@@ -166,6 +151,20 @@ const RoverPage = (props) => {
 
     </div>
   );
+}
+
+// Maps
+
+const mapStateToProps = (state) => {
+  return {
+    photos: state.photos
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPhotos: photos => dispatch(addPhotos(photos))
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoverPage);
