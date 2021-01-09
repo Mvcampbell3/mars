@@ -1,8 +1,10 @@
 import RoverPage from './RoverPage';
 import RoverSelection from './RoverSelection';
+import RoverPageWrapper from './RoverPageWrapper';
 
 export {
-  RoverSelection
+  RoverSelection,
+  RoverPage
 }
 
-export default RoverPage;
+export default RoverPageWrapper;

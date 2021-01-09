@@ -1,26 +1,45 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import './RoverPage.scss';
-import { connect } from 'react-redux';
-import { addPhotos } from '../../redux/actions'
 import Button from '../../components/Button';
 import { NumberInput } from '../../components/Input';
 import { RoverSelection } from './'
 import nasaAPI from '../../utils/axios';
 
-
-
 const RoverPage = (props) => {
-  const { photos, addPhotos } = props;
-  const [selectedRover, setSelectedRover] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [maxSol, setMaxSol] = useState("");
-  const [selectedSol, setSelectedSol] = useState('');
-  const [availableCameras, setAvailableCameras] = useState([]);
-  const [solTotalPictures, setSolTotalPictures] = useState(0);
-  const [manifestSols, setManifestSols] = useState([]);
-  const [selectedCamera, setSelectedCamera] = useState('');
+  const {
+    photos,
+    replacePhotos,
+    selectRover,
+    selectedRover,
+    loading,
+    setLoading,
+    maxSol,
+    setMaxSol,
+    selectedSol,
+    setSelectedSol,
+    availableCameras,
+    setAvailableCameras,
+    totalPictures,
+    setTotalPictures,
+    manifestSols,
+    setManifestSols,
+    selectedCamera,
+    setSelectedCamera
+  } = props;
+
+  useEffect(() => {
+    console.log(photos)
+  }, [photos])
+
+
 
   const handleSelectedRoverChange = useCallback(() => {
+
+    const clearRoverData = () => {
+      setSelectedCamera("");
+      setMaxSol("");
+    }
+
     setLoading(true);
     clearRoverData()
     nasaAPI.getRoverManifest(selectedRover)
@@ -36,7 +55,7 @@ const RoverPage = (props) => {
         console.log(err)
         setLoading(false)
       })
-  }, [selectedRover])
+  }, [selectedRover, setSelectedCamera, setAvailableCameras, setLoading, setManifestSols, setMaxSol, setSelectedSol])
 
   useEffect(() => {
     if (selectedRover !== '') {
@@ -48,28 +67,25 @@ const RoverPage = (props) => {
   const RoverSelectionProps = useMemo(() => {
     return {
       selectedRover,
-      setSelectedRover,
+      selectRover,
       selectedCamera,
       loading
     }
-  }, [selectedRover, loading, selectedCamera])
+  }, [selectedRover, loading, selectedCamera, selectRover])
 
-  const clearRoverData = () => {
-    setSelectedCamera("");
-    setMaxSol("");
-  }
+
 
   useEffect(() => {
     const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
     setSelectedCamera("")
     if (correctSol.length > 0) {
       setAvailableCameras(["ALL", ...correctSol[0].cameras]);
-      setSolTotalPictures(correctSol[0].total_photos);
+      setTotalPictures(correctSol[0].total_photos);
     } else {
       setAvailableCameras([]);
-      setSolTotalPictures(0)
+      setTotalPictures(0)
     }
-  }, [manifestSols, selectedSol])
+  }, [manifestSols, selectedSol, setAvailableCameras, setTotalPictures, setSelectedCamera])
 
   const ButtonProps = useCallback((changeFunc, value, type, evalItem) => {
     return {
@@ -102,8 +118,7 @@ const RoverPage = (props) => {
     if (selectedCamera !== "" && selectedRover !== "" && selectedSol !== "") {
       nasaAPI.getRoverPictures(selectedRover, selectedCamera, selectedSol)
         .then(result => {
-          console.log(result.data)
-          addPhotos(result.data.photos);
+          replacePhotos(result.data.photos);
         })
         .catch(err => {
           console.log(err)
@@ -141,7 +156,7 @@ const RoverPage = (props) => {
         <Button key={camera} {...ButtonProps(setSelectedCamera, camera.toLowerCase(), 'camera', selectedCamera)}>{camera}</Button>
       )}
 
-      {solTotalPictures > 0 ? <h3>Total Pictures: {solTotalPictures}</h3> : <h3>There are not any pics</h3>}
+      {totalPictures > 0 ? <h3>Total Pictures: {totalPictures}</h3> : <h3>There are not any pics</h3>}
 
       <div className="item-container">
         <div className="submit-btn-holder">
@@ -149,22 +164,10 @@ const RoverPage = (props) => {
         </div>
       </div>
 
+      <div>{photos > 0 ? "Yes" : "No"}</div>
+
     </div>
   );
 }
 
-// Maps
-
-const mapStateToProps = (state) => {
-  return {
-    photos: state.photos
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addPhotos: photos => dispatch(addPhotos(photos))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RoverPage);
+export default RoverPage;

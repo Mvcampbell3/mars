@@ -5,8 +5,8 @@ import Button from '../../components/Button';
 
 const RoverSelection = (props) => {
   const {
+    selectRover,
     selectedRover,
-    setSelectedRover,
     selectedCamera,
     loading
   } = props;
@@ -28,13 +28,13 @@ const RoverSelection = (props) => {
   return (
     <div className="rover-holder">
       <div className="rover-button">
-        <Button {...ButtonProps(setSelectedRover, 'curiosity', 'rover', selectedRover)}>Curiosity</Button>
+        <Button {...ButtonProps(selectRover, 'curiosity', 'rover', selectedRover)}>Curiosity</Button>
       </div>
       <div className="rover-button">
-        <Button {...ButtonProps(setSelectedRover, 'opportunity', 'rover', selectedRover)}>Opportunity</Button>
+        <Button {...ButtonProps(selectRover, 'opportunity', 'rover', selectedRover)}>Opportunity</Button>
       </div>
       <div className="rover-button">
-        <Button {...ButtonProps(setSelectedRover, 'spirit', 'rover', selectedRover)}>Spirit</Button>
+        <Button {...ButtonProps(selectRover, 'spirit', 'rover', selectedRover)}>Spirit</Button>
       </div>
     </div>
   );
