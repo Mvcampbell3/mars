@@ -1,15 +1,22 @@
-import { ADD_PHOTOS } from "../constants/action_types";
+import { ADD_PHOTOS, ADD_NUMBER } from "../constants/action_types";
+
 
 const initialState = {
-  photos: []
+  photos: [],
+  number: 0
 };
 
 const rootReducer = (state = initialState, action) => {
+  console.log("action", action)
   switch (action.type) {
-    case ADD_PHOTOS:
-      return Object.assign({}, state, {
-        photos: state.photos.concat(action.payload)
-      });
+    case "ADD_PHOTOS":
+      const { photos } = state;
+      const new_photos = action.payload;
+      return { ...state, photos: [...photos, ...new_photos] }
+    case ADD_NUMBER:
+      const { number } = state;
+      const add_num = action.payload;
+      return { ...state, number: number + add_num }
     default:
       return state;
   }

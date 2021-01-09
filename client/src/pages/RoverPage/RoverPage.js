@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import './RoverPage.scss';
+import { connect } from 'react-redux';
+import { addPhotos } from '../../redux/actions'
 
 // import { SpiritPage, CuriosityPage, OpportunityPage } from './'
 import Button from '../../components/Button';
@@ -9,8 +11,20 @@ import { RoverSelection } from './'
 
 import nasaAPI from '../../utils/axios';
 
-const RoverPage = (props) => {
+const mapStateToProps = (state) => {
+  return {
+    photos: state.photos
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addPhotos: photos => dispatch(addPhotos(photos))
+  }
+}
+
+const RoverPage = (props) => {
+  const { photos } = props;
   const [selectedRover, setSelectedRover] = useState('');
   const [loading, setLoading] = useState(false);
   const [maxSol, setMaxSol] = useState("");
@@ -103,6 +117,8 @@ const RoverPage = (props) => {
       nasaAPI.getRoverPictures(selectedRover, selectedCamera, selectedSol)
         .then(result => {
           console.log(result.data)
+          addPhotos([{ name: 'hello' }]);
+          console.log(photos)
         })
         .catch(err => {
           console.log(err)
@@ -152,4 +168,4 @@ const RoverPage = (props) => {
   );
 }
 
-export default RoverPage;
+export default connect(mapStateToProps, mapDispatchToProps)(RoverPage);

@@ -24,7 +24,7 @@ const Login = (props) => {
       actionFunction(email, password)
         .then(result => {
           console.log(result)
-          // setRedirectRover(true)
+          setRedirectRover(true)
         })
         .catch(err => {
           console.log(err)
