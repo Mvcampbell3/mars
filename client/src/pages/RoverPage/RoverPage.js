@@ -164,7 +164,7 @@ const RoverPage = (props) => {
         </div>
       </div>
 
-      <div>{photos > 0 ? "Yes" : "No"}</div>
+      <div>{photos.length > 0 ? "Yes" : "No"}</div>
 
     </div>
   );
