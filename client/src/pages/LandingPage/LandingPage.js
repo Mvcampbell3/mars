@@ -8,12 +8,12 @@ const LandgingPage = () => {
   const myVideo = useRef();
 
   useEffect(() => {
-    myVideo.current.playbackRate = 0.6;
+    myVideo.current.playbackRate = 1;
   }, [myVideo])
 
   return (
     <div className="landing-container">
-      <video ref={myVideo} src={movie} muted autoPlay></video>
+      <video ref={myVideo} src={movie} muted loop autoPlay></video>
       {/* <div className="overlay fade-in-animation fast"></div> */}
       <section className="content">
         <h1 className="title">Welcome Martian Explorer</h1>

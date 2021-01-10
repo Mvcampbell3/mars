@@ -1,8 +1,7 @@
 import React, { useEffect, useCallback, useMemo } from 'react';
 import './RoverPage.scss';
 import Button from '../../components/Button';
-import { NumberInput } from '../../components/Input';
-import { RoverSelection } from './'
+import { RoverSelection, RoverSolSelection } from './'
 import nasaAPI from '../../utils/axios';
 import { Link } from 'react-router-dom';
 
@@ -35,14 +34,10 @@ const RoverPage = (props) => {
 
 
   const handleSelectedRoverChange = useCallback(() => {
-
-    const clearRoverData = () => {
-      setSelectedCamera("");
-      setMaxSol("");
-    }
-
     setLoading(true);
-    clearRoverData()
+    setSelectedCamera("");
+    setMaxSol("");
+
     nasaAPI.getRoverManifest(selectedRover)
       .then(result => {
         console.log(result.data);
@@ -64,17 +59,6 @@ const RoverPage = (props) => {
       handleSelectedRoverChange(selectedRover)
     }
   }, [selectedRover, handleSelectedRoverChange]);
-
-  const RoverSelectionProps = useMemo(() => {
-    return {
-      selectedRover,
-      selectRover,
-      selectedCamera,
-      loading
-    }
-  }, [selectedRover, loading, selectedCamera, selectRover])
-
-
 
   useEffect(() => {
     const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
@@ -102,18 +86,7 @@ const RoverPage = (props) => {
     }
   }, [selectedRover, selectedCamera, loading])
 
-  const InputProps = useCallback((changeFunc, value, name, id, placeholder) => {
-    return {
-      handleChange: (e) => {
-        changeFunc(e.target.value)
-      },
-      value,
-      name,
-      id,
-      placeholder,
-      selectedSol // Added to stop warning, it's not doing anything
-    }
-  }, [selectedSol]);
+
 
   const getPictures = () => {
     if (selectedCamera !== "" && selectedRover !== "" && selectedSol !== "") {
@@ -129,30 +102,19 @@ const RoverPage = (props) => {
 
   return (
     <div className="container">
+      {loading && <div>Loading</div>}
       <div className="item-container">
         <Link to='/'>Home</Link>
         <h1 className='page-title'>{selectedRover === ""
           ? "Please select a rover"
           : selectedRover.charAt(0).toUpperCase() + selectedRover.slice(1)}</h1>
-        <RoverSelection {...RoverSelectionProps} />
+        <RoverSelection {...props} />
       </div>
 
       {selectedRover !== "" && maxSol !== "" &&
-        <div className="item-container">
-          <div className="sol-holder">
-            <div className="sol-stats">
-              <h3>Maximum Sol: {maxSol}</h3>
-            </div>
-            <div className="sol-input-group">
-              <label htmlFor="sol-input">Sol</label>
-              <NumberInput {...InputProps(setSelectedSol, selectedSol, 'selected-sol-input', 'selected-sol-input', 'A number less or equal to the max sol number')} />
-              <h1>{selectedSol}</h1>
-            </div>
-          </div>
-        </div>
+        <RoverSolSelection {...props} />
       }
 
-      {loading && <div>Loading</div>}
 
       {availableCameras && availableCameras.length > 0 && availableCameras.map(camera =>
         <Button key={camera} {...ButtonProps(setSelectedCamera, camera.toLowerCase(), 'camera', selectedCamera)}>{camera}</Button>
