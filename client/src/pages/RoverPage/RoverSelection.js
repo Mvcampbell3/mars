@@ -1,15 +1,47 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import './RoverPage.scss';
 import Button from '../../components/Button';
-
+import nasaAPI from '../../utils/axios';
 
 const RoverSelection = (props) => {
   const {
     selectRover,
     selectedRover,
     selectedCamera,
-    loading
+    loading,
+    setLoading,
+    setSelectedCamera,
+    setMaxSol,
+    setSelectedSol,
+    setAvailableCameras,
+    setManifestSols
   } = props;
+
+  const handleSelectedRoverChange = useCallback(() => {
+    setLoading(true);
+    setSelectedCamera("");
+    setMaxSol("");
+
+    nasaAPI.getRoverManifest(selectedRover)
+      .then(result => {
+        console.log(result.data);
+        setSelectedSol('');
+        setAvailableCameras([])
+        setMaxSol(result.data.photo_manifest.max_sol);
+        setManifestSols(result.data.photo_manifest.photos)
+        setLoading(false)
+      })
+      .catch(err => {
+        console.log(err)
+        setLoading(false)
+      })
+  }, [selectedRover, setSelectedCamera, setAvailableCameras, setLoading, setManifestSols, setMaxSol, setSelectedSol])
+
+  useEffect(() => {
+    if (selectedRover !== '') {
+      handleSelectedRoverChange(selectedRover);
+    }
+  }, [selectedRover, handleSelectedRoverChange]);
 
   const ButtonProps = useCallback((changeFunc, value, type, evalItem) => {
     return {

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { NumberInput } from '../../components/Input'
 
 const RoverSolSelection = (props) => {
@@ -6,8 +6,24 @@ const RoverSolSelection = (props) => {
   const {
     maxSol,
     setSelectedSol,
-    selectedSol
+    selectedSol,
+    manifestSols,
+    setAvailableCameras,
+    setTotalPictures,
+    setSelectedCamera
   } = props;
+
+  useEffect(() => {
+    const correctSol = [...manifestSols].filter(manSol => manSol.sol === Number(selectedSol));
+    setSelectedCamera("")
+    if (correctSol.length > 0) {
+      setAvailableCameras(["ALL", ...correctSol[0].cameras]);
+      setTotalPictures(correctSol[0].total_photos);
+    } else {
+      setAvailableCameras([]);
+      setTotalPictures(0)
+    }
+  }, [manifestSols, selectedSol, setAvailableCameras, setTotalPictures, setSelectedCamera])
 
   const InputProps = useCallback((changeFunc, value, name, id, placeholder) => {
     return {
