@@ -2,14 +2,15 @@ import React, { useEffect } from 'react';
 import './RoverPage.scss';
 import { RoverSelection, RoverSolSelection, RoverCameraButtons, RoverSubmitRequest } from './'
 import { Link } from 'react-router-dom';
+import LoadingDisplay from '../../components/LoadingDisplay';
 
 const RoverPage = (props) => {
   const {
     photos,
     selectedRover,
-    loading,
     maxSol,
     totalPictures,
+    loading
   } = props;
 
   useEffect(() => {
@@ -18,7 +19,7 @@ const RoverPage = (props) => {
 
   return (
     <div className="container">
-      {loading && <div>Loading</div>}
+      {loading && <LoadingDisplay {...props} />}
       <div className="item-container">
         <Link to='/'>Home</Link>
         <h1 className='page-title'>{selectedRover === ""

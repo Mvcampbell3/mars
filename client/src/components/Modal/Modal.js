@@ -4,17 +4,20 @@ import './Modal.scss';
 const Modal = (props) => {
   const {
     showModal,
-    setShowModal
+    setShowModal,
+    loadingDisplay
   } = props;
 
   const closeModal = () => {
     console.log('clicked');
-    setShowModal(false);
+    if (!loadingDisplay) {
+      setShowModal(false);
+    }
   }
 
   return (
     <div className={`modal-background fade-in-animation ${!showModal ? "hide-content" : ""}`}>
-      <span className="close-modal" onClick={closeModal}>X</span>
+      {!loadingDisplay && <span className="close-modal" onClick={closeModal}>X</span>}
       <div className="modal-content">{props.children}</div>
     </div>
   );
