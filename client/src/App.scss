@@ -7,6 +7,10 @@
   animation-fill-mode: forwards;
   animation-duration: 0.3s;
   animation-timing-function: linear;
+
+  &.fast {
+    animation-duration: 0.15s;
+  }
 }
 
 @keyframes fade-in {

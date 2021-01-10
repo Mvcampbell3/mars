@@ -4,6 +4,7 @@ import Button from '../../components/Button';
 import { NumberInput } from '../../components/Input';
 import { RoverSelection } from './'
 import nasaAPI from '../../utils/axios';
+import { Link } from 'react-router-dom';
 
 const RoverPage = (props) => {
   const {
@@ -129,6 +130,7 @@ const RoverPage = (props) => {
   return (
     <div className="container">
       <div className="item-container">
+        <Link to='/'>Home</Link>
         <h1 className='page-title'>{selectedRover === ""
           ? "Please select a rover"
           : selectedRover.charAt(0).toUpperCase() + selectedRover.slice(1)}</h1>

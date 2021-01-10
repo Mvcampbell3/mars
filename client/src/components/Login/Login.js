@@ -47,7 +47,7 @@ const Login = (props) => {
   return (
     <div className="login-container">
       {redirectRover && <Redirect to='/rovers' />}
-      <Button type='button' handleClick={e => setShowLoginModal(!showLoginModal)}>Login</Button>
+      <Button type='button-z-30' handleClick={e => setShowLoginModal(!showLoginModal)}>Login</Button>
       <Modal {...ModalProps}>
         <div className="login-form">
           <form onSubmit={handleSubmit}>
