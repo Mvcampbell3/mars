@@ -24,7 +24,6 @@ const RoverSelection = (props) => {
 
     nasaAPI.getRoverManifest(selectedRover)
       .then(result => {
-        console.log(result.data);
         setSelectedSol('');
         setAvailableCameras([])
         setMaxSol(result.data.photo_manifest.max_sol);
@@ -35,7 +34,15 @@ const RoverSelection = (props) => {
         console.log(err)
         setLoading(false)
       })
-  }, [selectedRover, setSelectedCamera, setAvailableCameras, setLoading, setManifestSols, setMaxSol, setSelectedSol])
+  }, [
+    selectedRover,
+    setSelectedCamera,
+    setAvailableCameras,
+    setLoading,
+    setManifestSols,
+    setMaxSol,
+    setSelectedSol
+  ])
 
   useEffect(() => {
     if (selectedRover !== '') {
