@@ -13,3 +13,7 @@ export const SET_SELECTED_CAMERA = "SET_SELECTED_CAMERA";
 
 // Page Setup
 export const SET_LOADING = "SET_LOADING";
+
+// User Setup
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";

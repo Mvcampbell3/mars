@@ -1,3 +1,4 @@
+import { loginUser } from "../actions";
 import {
   ADD_PHOTOS,
   REPLACE_PHOTOS,
@@ -8,7 +9,9 @@ import {
   SET_MAX_SOL,
   SET_SELECTED_CAMERA,
   SET_SELECTED_SOL,
-  SET_TOTAL_PICTURES
+  SET_TOTAL_PICTURES,
+  LOGIN_USER,
+  LOGOUT_USER
 } from "../constants/action_types";
 
 
@@ -22,6 +25,7 @@ const initialState = {
   totalPictures: 0,
   manifestSols: [],
   selectedCamera: '',
+  user: null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -48,6 +52,10 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, manifestSols: action.payload }
     case SET_SELECTED_CAMERA:
       return { ...state, selectedCamera: action.payload }
+    case LOGIN_USER:
+      return { ...state, user: action.payload }
+    case LOGOUT_USER:
+      return { ...state, user: null }
     default:
       console.log('default reducer ran', action.type)
       return state;

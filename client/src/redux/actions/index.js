@@ -8,9 +8,13 @@ import {
   SET_AVAILABLE_CAMERAS,
   SET_TOTAL_PICTURES,
   SET_MANIFEST_SOLS,
-  SET_SELECTED_CAMERA
+  SET_SELECTED_CAMERA,
+  LOGIN_USER,
+  LOGOUT_USER
 } from "../constants/action_types";
 
+
+// Rover Actions
 export const addPhotos = payload => {
   console.log('photo action add', payload)
   return { type: ADD_PHOTOS, payload }
@@ -22,10 +26,6 @@ export const replacePhotos = payload => {
 
 export const selectRover = payload => {
   return { type: SELECT_ROVER, payload }
-}
-
-export const setLoading = payload => {
-  return { type: SET_LOADING, payload }
 }
 
 export const setMaxSol = payload => {
@@ -50,4 +50,18 @@ export const setManifestSols = payload => {
 
 export const setSelectedCamera = payload => {
   return { type: SET_SELECTED_CAMERA, payload }
+}
+
+// Page Actions
+export const setLoading = payload => {
+  return { type: SET_LOADING, payload }
+}
+
+// User Actions
+export const loginUser = payload => {
+  return { type: LOGIN_USER, payload }
+}
+
+export const logoutUser = () => {
+  return { type: LOGOUT_USER }
 }
