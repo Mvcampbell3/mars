@@ -6,7 +6,7 @@ import {
     RoverCameraButtons,
     RoverSubmitRequest,
 } from "./";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import LoadingDisplay from "../../components/LoadingDisplay";
 
 const RoverPage = (props) => {
@@ -20,6 +20,7 @@ const RoverPage = (props) => {
 
     return (
         <div className="container">
+            {redirectPhotoPage && <Redirect to="/photos" />}
             {loading && <LoadingDisplay {...props} />}
             <div className="item-container">
                 <Link to="/">Home</Link>

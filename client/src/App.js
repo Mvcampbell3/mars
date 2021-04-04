@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 // pages
 import LandingPage from './pages/LandingPage';
 import RoverPage from './pages/RoverPage';
+import PhotoPage from "./pages/PhotoPage";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Switch>
           <Route exact path='/' render={props => <LandingPage {...props} />} />
           <Route exact path='/rovers' render={props => <RoverPage {...props} />} />
+          <Route exact path='/photos' render={props => <PhotoPage {...props} />} />
         </Switch>
       </Router>
     </div>
