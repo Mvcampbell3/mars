@@ -24,6 +24,7 @@ const RoverSelection = (props) => {
 
     nasaAPI.getRoverManifest(selectedRover)
       .then(result => {
+        console.log(result)
         setSelectedSol('');
         setAvailableCameras([])
         setMaxSol(result.data.photo_manifest.max_sol);
@@ -66,6 +67,9 @@ const RoverSelection = (props) => {
 
   return (
     <div className="rover-holder">
+      <div className="rover-button">
+        <Button {...ButtonProps(selectRover, 'perseverance', 'rover', selectedRover)}>Perseverance</Button>
+      </div>
       <div className="rover-button">
         <Button {...ButtonProps(selectRover, 'curiosity', 'rover', selectedRover)}>Curiosity</Button>
       </div>
