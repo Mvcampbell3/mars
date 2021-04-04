@@ -1,47 +1,55 @@
-import React, { useEffect } from 'react';
-import './RoverPage.scss';
-import { RoverSelection, RoverSolSelection, RoverCameraButtons, RoverSubmitRequest } from './'
-import { Link } from 'react-router-dom';
-import LoadingDisplay from '../../components/LoadingDisplay';
+import React, { useEffect, useState } from "react";
+import "./RoverPage.scss";
+import {
+    RoverSelection,
+    RoverSolSelection,
+    RoverCameraButtons,
+    RoverSubmitRequest,
+} from "./";
+import { Link } from "react-router-dom";
+import LoadingDisplay from "../../components/LoadingDisplay";
 
 const RoverPage = (props) => {
-  const {
-    photos,
-    selectedRover,
-    maxSol,
-    totalPictures,
-    loading
-  } = props;
+    const { photos, selectedRover, maxSol, totalPictures, loading } = props;
 
-  useEffect(() => {
-    console.log(photos)
-  }, [photos])
+    useEffect(() => {
+        console.log(photos);
+    }, [photos]);
 
-  return (
-    <div className="container">
-      {loading && <LoadingDisplay {...props} />}
-      <div className="item-container">
-        <Link to='/'>Home</Link>
-        <h1 className='page-title'>{selectedRover === ""
-          ? "Please select a rover"
-          : selectedRover.charAt(0).toUpperCase() + selectedRover.slice(1)}</h1>
-        <RoverSelection {...props} />
-      </div>
+    const [redirectPhotoPage, setRedirectPhotoPage] = useState(false);
 
-      {selectedRover !== "" && maxSol !== "" &&
-        <RoverSolSelection {...props} />
-      }
+    return (
+        <div className="container">
+            {loading && <LoadingDisplay {...props} />}
+            <div className="item-container">
+                <Link to="/">Home</Link>
+                <h1 className="page-title">
+                    {selectedRover === ""
+                        ? "Please select a rover"
+                        : selectedRover.charAt(0).toUpperCase() +
+                          selectedRover.slice(1)}
+                </h1>
+                <RoverSelection {...props} />
+            </div>
 
-      {totalPictures > 0 ? <h3>Total Pictures: {totalPictures}</h3> : <h3>There are not any pics</h3>}
+            {selectedRover !== "" && maxSol !== "" && (
+                <RoverSolSelection {...props} />
+            )}
 
-      <RoverCameraButtons {...props} />
+            {totalPictures > 0 ? (
+                <h3>Total Pictures: {totalPictures}</h3>
+            ) : (
+                <h3>There are not any pics</h3>
+            )}
 
-      <RoverSubmitRequest {...props} />
+            <RoverCameraButtons {...props} />
 
-      <div>{photos.length > 0 ? "Yes" : "No"}</div>
-
-    </div>
-  );
-}
+            <RoverSubmitRequest
+                {...props}
+                setRedirectPhotoPage={setRedirectPhotoPage}
+            />
+        </div>
+    );
+};
 
 export default RoverPage;
