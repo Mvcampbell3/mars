@@ -1,0 +1,19 @@
+.photo-item-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    img.photo {
+        display: block;
+        position: relative;
+        width: 400px;
+        height: auto;
+
+        &.top {
+            z-index: 100;
+        }
+
+        &.stack {
+            z-index: 0;
+        }
+    }
+}
