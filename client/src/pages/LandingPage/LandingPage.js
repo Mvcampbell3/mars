@@ -14,9 +14,8 @@ const LandgingPage = () => {
   return (
     <div className="landing-container">
       <video ref={myVideo} src={movie} muted loop autoPlay></video>
-      {/* <div className="overlay fade-in-animation fast"></div> */}
       <section className="content">
-        <h1 className="title">Welcome Martian Explorer</h1>
+        <h2 className="title">Welcome Martian Explorer</h2>
         <ul className="nav">
           <li className="nav-link">
             <Link to='/rovers'>Rovers</Link>
