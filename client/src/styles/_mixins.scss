@@ -1,0 +1,72 @@
+$colors: (
+    black: #111,
+    blue: #486de4,
+    mako-grey: #404145,
+    fuel-yellow: #ecaf2d,
+    pastel-green: #5ad864,
+);
+
+@mixin color-modifiers {
+    @each $name, $hex in $colors {
+        &-#{$name} {
+            color: $hex;
+        }
+    }
+}
+
+.text {
+    @include color-modifiers();
+}
+
+$space-amounts: (1, 2, 3, 4, 5);
+$sides: ("top", "right", "bottom", "left");
+
+@each $space in $space-amounts {
+    .-margin--#{$space} {
+        margin: #{$space}rem;
+    }
+    .-padding--#{$space} {
+        padding: #{$space}rem;
+    }
+    @each $side in $sides {
+        .-margin-#{$side}--#{$space} {
+            margin-#{$side}: #{$space}rem;
+        }
+        .-padding-#{$side}--#{$space} {
+            padding-#{$side}: #{$space}rem;
+        }
+    }
+}
+
+$alignments: ("center", "left", "right");
+
+@each $alignment in $alignments {
+    .-text--#{$alignment} {
+        text-align: #{$alignment};
+    }
+}
+
+$breakpoints: (
+    xs: 360px,
+    sm: 600px,
+    md: 1000px,
+    lg: 1200px,
+) !default;
+
+@function breakpoint-min($name, $breakpoints: $breakpoints) {
+    $min: map-get($breakpoints, $name);
+    @return if($min !=0, $min, null);
+}
+
+@mixin media-from($media) {
+    $min: breakpoint-min($media);
+    @if $min {
+        @media (min-width: #{$min}) {
+            @content;
+        }
+    } @else {
+        @content;
+    }
+}
+
+$columns: 12;

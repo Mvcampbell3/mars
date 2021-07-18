@@ -1,0 +1,10 @@
+@import "../../styles/mixins";
+
+.selection-page-container {
+    width: 300px;
+    margin: 0 auto;
+    @include media-from("sm") {
+        background-color: red;
+        width: 90%;
+    }
+}
