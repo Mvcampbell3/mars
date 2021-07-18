@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani&display=swap");
+
+* {
+    font-family: sans-serif;
+    box-sizing: border-box;
+    font-family: "Rajdhani", sans-serif;
+}
+
+body,
+html {
+    min-height: 100vh;
+    height: 100%;
+}
+
+body {
+    background-color: $primary-bg-color;
+}
+
+html {
+    font-size: 24px;
+    color: $primary-text-color;
+}
+
+h1 {
+    font-size: 3rem;
+    color: $primary-text-color;
+}
+
+h2 {
+    font-size: 2rem;
+    color: $primary-text-color;
+}
+
+h3 {
+    font-size: 1.75rem;
+    color: $primary-text-color;
+}
+
+h4 {
+    font-size: 1.25rem;
+    color: $primary-text-color;
+}
+
+h5 {
+    font-size: 1rem;
+    color: $primary-text-color;
+}
+
+h6 {
+    font-size: 0.875rem;
+    color: $primary-text-color;
+}
+
+p {
+    font-size: 1.25rem;
+    color: $primary-text-color;
+}
+
+a {
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: $secondary-text-color;
+    border-bottom: 1px transparent solid;
+    &:hover {
+        border-bottom: 1px $secondary-text-color solid;
+    }
+}

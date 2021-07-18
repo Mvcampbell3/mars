@@ -1,23 +1,25 @@
+@import "./styles/index.scss";
+
 .page-title {
-  text-align: center;
+    text-align: center;
 }
 
 .fade-in-animation {
-  animation-name: fade-in;
-  animation-fill-mode: forwards;
-  animation-duration: 0.3s;
-  animation-timing-function: linear;
+    animation-name: fade-in;
+    animation-fill-mode: forwards;
+    animation-duration: 0.3s;
+    animation-timing-function: linear;
 
-  &.fast {
-    animation-duration: 0.15s;
-  }
+    &.fast {
+        animation-duration: 0.15s;
+    }
 }
 
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
